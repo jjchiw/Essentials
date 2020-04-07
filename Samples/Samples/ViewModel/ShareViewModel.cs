@@ -16,6 +16,10 @@ namespace Samples.ViewModel
         string shareFileAttachmentContents;
         string shareFileAttachmentName;
         string shareFileTitle;
+        string shareFileTextValue;
+        string shareFileUriValue;
+        bool shareFileText;
+        bool shareFileUri;
 
         public ICommand RequestCommand { get; }
 
@@ -81,6 +85,30 @@ namespace Samples.ViewModel
             set => SetProperty(ref shareFileAttachmentName, value);
         }
 
+        public string ShareFileTextValue
+        {
+            get => shareFileTextValue;
+            set => SetProperty(ref shareFileTextValue, value);
+        }
+
+        public bool ShareFileText
+        {
+            get => shareFileText;
+            set => SetProperty(ref shareFileText, value);
+        }
+
+        public string ShareFileUriValue
+        {
+            get => shareFileUriValue;
+            set => SetProperty(ref shareFileUriValue, value);
+        }
+
+        public bool ShareFileUri
+        {
+            get => shareFileUri;
+            set => SetProperty(ref shareFileUri, value);
+        }
+
         async void OnRequest()
         {
             await Share.RequestAsync(new ShareTextRequest
@@ -105,6 +133,8 @@ namespace Samples.ViewModel
                 {
                     Title = Title,
                     File = new ShareFile(file),
+                    Text = ShareFileTextValue,
+                    Uri = ShareFileUriValue,
                     PresentationSourceBounds = Device.RuntimePlatform == Device.iOS && Device.Idiom == TargetIdiom.Tablet
                                             ? new System.Drawing.Rectangle(0, 20, 0, 0)
                                             : System.Drawing.Rectangle.Empty

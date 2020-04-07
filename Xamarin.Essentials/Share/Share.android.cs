@@ -9,16 +9,7 @@ namespace Xamarin.Essentials
     {
         static Task PlatformRequestAsync(ShareTextRequest request)
         {
-            var items = new List<string>();
-            if (!string.IsNullOrWhiteSpace(request.Text))
-            {
-                items.Add(request.Text);
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.Uri))
-            {
-                items.Add(request.Uri);
-            }
+            var items = JoinTextAndUrl(request);
 
             var intent = new Intent(Intent.ActionSend);
             intent.SetType("text/plain");
@@ -41,6 +32,8 @@ namespace Xamarin.Essentials
         {
             var contentUri = Platform.GetShareableFileUri(request.File.FullPath);
 
+            var items = JoinTextAndUrl(request);
+
             var intent = new Intent(Intent.ActionSend);
             intent.SetType(request.File.ContentType);
             intent.SetFlags(ActivityFlags.GrantReadUriPermission);
@@ -51,12 +44,35 @@ namespace Xamarin.Essentials
                 intent.PutExtra(Intent.ExtraTitle, request.Title);
             }
 
+            if (!string.IsNullOrWhiteSpace(request.Subject))
+            {
+                intent.PutExtra(Intent.ExtraSubject, request.Subject);
+            }
+
+            intent.PutExtra(Intent.ExtraText, string.Join(Environment.NewLine, items));
+
             var chooserIntent = Intent.CreateChooser(intent, request.Title ?? string.Empty);
             var flags = ActivityFlags.ClearTop | ActivityFlags.NewTask;
             chooserIntent.SetFlags(flags);
             Platform.AppContext.StartActivity(chooserIntent);
 
             return Task.CompletedTask;
+        }
+
+        static List<string> JoinTextAndUrl(ShareTextRequest request)
+        {
+            var items = new List<string>();
+            if (!string.IsNullOrWhiteSpace(request.Text))
+            {
+                items.Add(request.Text);
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Uri))
+            {
+                items.Add(request.Uri);
+            }
+
+            return items;
         }
     }
 }

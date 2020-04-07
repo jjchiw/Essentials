@@ -1,21 +1,28 @@
-﻿<views:BasePage xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:views="clr-namespace:Samples.View"
-                xmlns:viewmodels="clr-namespace:Samples.ViewModel"
-                x:Class="Samples.View.SharePage"
-                Title="Share">
+﻿<views:BasePage
+    x:Class="Samples.View.SharePage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:Samples.ViewModel"
+    xmlns:views="clr-namespace:Samples.View"
+    Title="Share">
     <views:BasePage.BindingContext>
         <viewmodels:ShareViewModel />
     </views:BasePage.BindingContext>
 
     <StackLayout>
-        <Label Text="Share text, websites and files to other applications on the users device." FontAttributes="Bold" Margin="12" />
+        <Label
+            Margin="12"
+            FontAttributes="Bold"
+            Text="Share text, websites and files to other applications on the users device." />
 
         <ScrollView>
             <StackLayout Padding="12,0,12,12" Spacing="6">
 
-                <Label Text="Share Text" FontAttributes="Bold" Margin="0,6,0,0" />
-                
+                <Label
+                    Margin="0,6,0,0"
+                    FontAttributes="Bold"
+                    Text="Share Text" />
+
                 <Label Text="Title (Optional)" />
                 <Entry Text="{Binding Title}" />
 
@@ -23,36 +30,90 @@
                 <Entry Text="{Binding Subject}" />
 
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="Text" HorizontalOptions="StartAndExpand" VerticalOptions="End" />
-                    <Switch HorizontalOptions="End" IsToggled="{Binding ShareText}" VerticalOptions="End" />
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="Text"
+                        VerticalOptions="End" />
+                    <Switch
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ShareText}"
+                        VerticalOptions="End" />
                 </StackLayout>
 
-                <Editor Text="{Binding Text}" Placeholder="Enter text to share here."
-                        Keyboard="Chat" AutoSize="TextChanges" />
+                <Editor
+                    AutoSize="TextChanges"
+                    Keyboard="Chat"
+                    Placeholder="Enter text to share here."
+                    Text="{Binding Text}" />
 
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="URI" HorizontalOptions="StartAndExpand" VerticalOptions="End" />
-                    <Switch HorizontalOptions="End" IsToggled="{Binding ShareUri}" VerticalOptions="End" />
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="URI"
+                        VerticalOptions="End" />
+                    <Switch
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ShareUri}"
+                        VerticalOptions="End" />
                 </StackLayout>
 
-                <Entry Text="{Binding Uri}" Placeholder="Enter URI to share here." />
+                <Entry Placeholder="Enter URI to share here." Text="{Binding Uri}" />
 
-                <Button Text="Share Text" Command="{Binding RequestCommand}" />
+                <Button Command="{Binding RequestCommand}" Text="Share Text" />
 
-                <BoxView Margin="0,4,0,4" HeightRequest="1" BackgroundColor="Gray" HorizontalOptions="FillAndExpand" />
+                <BoxView
+                    Margin="0,4,0,4"
+                    BackgroundColor="Gray"
+                    HeightRequest="1"
+                    HorizontalOptions="FillAndExpand" />
 
-                <Label Text="Share File" FontAttributes="Bold" Margin="0,6,0,0" />
+                <Label
+                    Margin="0,6,0,0"
+                    FontAttributes="Bold"
+                    Text="Share File" />
 
                 <Label Text="Title (Optional)" />
                 <Entry Text="{Binding ShareFileTitle}" />
 
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="Text"
+                        VerticalOptions="End" />
+                    <Switch
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ShareFileText}"
+                        VerticalOptions="End" />
+                </StackLayout>
+
+                <Editor
+                    AutoSize="TextChanges"
+                    Keyboard="Chat"
+                    Placeholder="Enter text to share here."
+                    Text="{Binding ShareFileTextValue}" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        HorizontalOptions="StartAndExpand"
+                        Text="URI"
+                        VerticalOptions="End" />
+                    <Switch
+                        HorizontalOptions="End"
+                        IsToggled="{Binding ShareFileUri}"
+                        VerticalOptions="End" />
+                </StackLayout>
+
+                <Entry Placeholder="Enter URI to share here." Text="{Binding ShareFileUriValue}" />
+
                 <Label Text="File Name:" />
                 <Entry Text="{Binding ShareFileAttachmentName}" />
                 <Label Text="File Contents:" />
-                <Editor Text="{Binding ShareFileAttachmentContents}"
-                        Keyboard="Chat" AutoSize="TextChanges" />
+                <Editor
+                    AutoSize="TextChanges"
+                    Keyboard="Chat"
+                    Text="{Binding ShareFileAttachmentContents}" />
 
-                <Button Text="Share File" Command="{Binding RequestFileCommand}" />
+                <Button Command="{Binding RequestFileCommand}" Text="Share File" />
 
             </StackLayout>
         </ScrollView>

@@ -51,7 +51,7 @@ namespace Xamarin.Essentials
         public string Uri { get; set; }
     }
 
-    public class ShareFileRequest : ShareRequestBase
+    public class ShareFileRequest : ShareTextRequest
     {
         public ShareFileRequest()
         {

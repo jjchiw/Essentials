@@ -10,16 +10,7 @@ namespace Xamarin.Essentials
     {
         static Task PlatformRequestAsync(ShareTextRequest request)
         {
-            var items = new List<NSObject>();
-            if (!string.IsNullOrWhiteSpace(request.Text))
-            {
-                items.Add(new ShareActivityItemSource(new NSString(request.Text), request.Title));
-            }
-
-            if (!string.IsNullOrWhiteSpace(request.Uri))
-            {
-                items.Add(new ShareActivityItemSource(NSUrl.FromString(request.Uri), request.Title));
-            }
+            var items = JoinTextAndUrl(request);
 
             var activityController = new UIActivityViewController(items.ToArray(), null);
 
@@ -40,11 +31,15 @@ namespace Xamarin.Essentials
         {
             var items = new List<NSObject>();
 
+            var textItems = JoinTextAndUrl(request);
+
             var fileUrl = NSUrl.FromFilename(request.File.FullPath);
             if (!string.IsNullOrEmpty(request.Title))
                 items.Add(new ShareActivityItemSource(fileUrl, request.Title)); // Share with title (subject)
             else
                 items.Add(fileUrl); // No title specified
+
+            items.AddRange(textItems);
 
             var activityController = new UIActivityViewController(items.ToArray(), null);
 
@@ -59,6 +54,22 @@ namespace Xamarin.Essentials
             }
 
             return vc.PresentViewControllerAsync(activityController, true);
+        }
+
+        static List<NSObject> JoinTextAndUrl(ShareTextRequest request)
+        {
+            var items = new List<NSObject>();
+            if (!string.IsNullOrWhiteSpace(request.Text))
+            {
+                items.Add(new ShareActivityItemSource(new NSString(request.Text), request.Title));
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Uri))
+            {
+                items.Add(new ShareActivityItemSource(NSUrl.FromString(request.Uri), request.Title));
+            }
+
+            return items;
         }
     }
 
